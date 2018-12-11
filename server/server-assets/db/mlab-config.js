@@ -5,6 +5,8 @@ var connection = mongoose.connection
 
 mongoose.connect(connectionString, { useMongoClient: true })
 
+mongoose.PromiseProvider = Promise
+
 connection.on('error', err => {
   console.log('ERROR FROM DATABASE: ', err)
 })

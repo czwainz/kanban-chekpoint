@@ -1,14 +1,14 @@
-let mongoose = require('mongoose')
-let Schema = mongoose.Schema
-let ObjectId = Schema.Types.ObjectId
-let schemaName = 'Comment'
+// let mongoose = require('mongoose')
+// let Schema = mongoose.Schema
+// let ObjectId = Schema.Types.ObjectId
+// let schemaName = 'Comment'
 
 
-let schema = new Schema({
-  description: { type: String, required: true },
-  created: { type: Number, required: true, default: Date.now() },
-  taskId: { type: ObjectId, ref: 'Task', required: true }
-})
+// let schema = new Schema({
+//   description: { type: String, required: true },
+//   created: { type: Number, required: true, default: Date.now() },
+//   taskId: { type: ObjectId, ref: 'Task', required: true }
+// })
 
 
-module.exports = mongoose.model(schemaName, schema)
+// module.exports = mongoose.model(schemaName, schema)
