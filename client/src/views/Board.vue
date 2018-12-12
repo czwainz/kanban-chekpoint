@@ -2,24 +2,26 @@
   <div class="board">
     {{boardId}}
     <div v-for="list in lists" :key="list._id">
-      <router-link :to="{name: 'list', params: {listId: list._id}}">{{list.title}}</router-link>
-      {{list.title}}
-      <!-- {{boardId}}
-    <router-link :to="{name: 'List', params: {listId: list._id}}" v-for="list in lists">{{list.title}}</router-link> -->
     </div>
+    <List :boardId="boardId"></List>
   </div>
 </template>
 
 <script>
   import List from '@/components/List.vue'
+  import Task from '@/components/Task.vue'
 
   export default {
     name: "board",
     created() {
       //blocks users not logged in
-      if (!this.$store.state.user._id) {
-        this.$router.push({ name: "login" });
+      if (!this.$route.params.boardId) {
+        this.$router.push({ name: "boards" });
       }
+    },
+    mounted() {
+      return this.$store.dispatch("getLists", this.boardId);
+      this.$store.dispatch("getBoard", this.$route.params.boardId)
     },
     computed: {
       lists() {
@@ -32,8 +34,9 @@
       }
     },
     components: {
-      List
+      List,
+      Task
     },
-    props: ["boardId", "lists"]
+    props: ["boardId"]
   };
 </script>

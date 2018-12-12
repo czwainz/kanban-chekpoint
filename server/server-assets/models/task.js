@@ -5,7 +5,7 @@ let schemaName = 'Task'
 
 let comment = new Schema({
   description: { type: String, required: true },
-  taskId: { type: ObjectId, ref: 'Task', required: true }
+  authorId: { type: ObjectId, ref: 'User', required: true }
 },
   { timestamps: true })
 

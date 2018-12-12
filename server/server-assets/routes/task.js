@@ -16,6 +16,29 @@ router.post('/', (req, res, next) => {
     })
 })
 
+//POST A COMMENT IN TASK
+// router.post('/:taskId/comment', (req, res, next) => {
+//   req.body.listId = req.session.uid
+//   Tasks.findById(req.params.taskId)
+//     .then(task => {
+//       let comment = {
+//         description: req.body.description,
+//         authorId: req.session.uid
+//       }
+//       task.comments.push(comment)
+//       task.save(err => {
+//         if (err) {
+//           return next(err)
+//         }
+//         res.send("Successfully add comment")
+//       })
+//     })
+//     .catch(err => {
+//       console.log(err)
+//       next()
+//     })
+// })
+
 //EDIT A TASK IN A LIST
 router.put('/:id', (req, res, next) => {
   Tasks.findById(req.params.id)
