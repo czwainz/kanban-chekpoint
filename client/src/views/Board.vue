@@ -1,9 +1,12 @@
 <template>
-  <div class="board">
-    {{boardId}}
-    <div v-for="list in lists" :key="list._id">
+  <div class="board container-fluid">
+    <div class="row justify-content-center">
+      {{boardId}}
     </div>
-    <List :boardId="boardId"></List>
+    <div v-for="list in lists" :key="list._id"></div>
+    <div class="row">
+      <List :boardId="boardId"></List>
+    </div>
   </div>
 </template>
 

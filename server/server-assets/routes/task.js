@@ -5,7 +5,8 @@ let Tasks = require('../models/task')
 
 //POST A TASK IN A LIST
 router.post('/', (req, res, next) => {
-  req.body.listId = req.session.uid
+  req.body.authorId = req.session.uid
+  // req.body.listId = req.params.listId
   Tasks.create(req.body)
     .then(newTask => {
       res.send(newTask)
