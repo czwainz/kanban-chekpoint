@@ -16,7 +16,7 @@
       }
     },
     mounted() {
-      this.$store.dispatch('getTasks', this.$route.params.listId)
+      this.$store.dispatch('getTasks', this.listId)
     },
     computed: {
       tasks() {

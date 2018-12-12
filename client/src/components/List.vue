@@ -8,8 +8,8 @@
     <div v-for="list in lists" :key="list._id" class="lists">
       <h4>{{list.title}}</h4>
       <p>{{list.description}}</p>
-      <Tasks></Tasks>
       <button @click="deleteList(list._id)">Delete List</button>
+      <Tasks :listId="list._id"></Tasks>
     </div>
   </div>
 </template>
@@ -45,7 +45,7 @@
         this.$store.dispatch('deleteList', { listId, boardId: this.boardId })
       }
     },
-    component() {
+    components: {
       Tasks
     },
     props: ["boardId", "listId"]
