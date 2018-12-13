@@ -1,6 +1,13 @@
 <template>
   <div class="task">
     <div class="allTasks">
+      <div class="dropdown">
+        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Change
+          Lists</button>
+        <div class="dropdown-menu">
+          <p class="dropdown-item" v-for="list in lists" @click="updateTask(list._id)">{{list.title}}</p>
+        </div>
+      </div>
       <h5 style="color: blue;">{{taskData.title}}</h5>
       <h6 style="color: blue;">{{taskData.description}}</h6>
       <button @click="deleteTask(taskData._id)"><i class="far fa-trash-alt"></i></button>
@@ -11,7 +18,7 @@
       </form>
       <div v-for="comment in taskData.comments">
         {{comment.description}}
-        <button @click="deleteComment"><i class="far fa-trash-alt"></i></button>
+        <button @click="deleteComment(comment._id)"><i class="far fa-trash-alt"></i></button>
       </div>
     </div>
     <form @submit.prevent="addTask">
@@ -39,7 +46,9 @@
       }
     },
     computed: {
-
+      lists() {
+        return this.$store.state.lists
+      }
     },
     methods: {
       addTask() {
@@ -57,7 +66,20 @@
           description: this.newComment.description
         })
       },
-      deleteComment() { }
+      deleteComment(id) {
+        debugger
+        this.$store.dispatch('deleteComment', {
+          taskId: this.taskData._id,
+          commentId: id
+        })
+      },
+      updateTask(listId) {
+        this.$store.dispatch('updateTask', {
+          taskId: this.taskData._id,
+          listId: listId,
+          oldList: this.taskData.listId
+        })
+      }
     },
     props: ["listId", "taskData"]
   }

@@ -74,22 +74,37 @@ router.delete('/:id', (req, res, next) => {
 router.put('/:taskId/delete-comment/:commentId', (req, res, next) => {
   Tasks.findById(req.params.taskId)
     .then(task => {
-      task.update(req.body, (err) => {
-
+      let commentIndex = task.comments.findIndex(comment => {
+        return req.body.commentId == comment._id
+      })
+      task.comments.splice(commentIndex, 1)
+      task.save(err => {
         if (err) {
           console.log(err)
           next()
-          return
         }
-        res.send("Successfully Deleted Comment")
+        res.send(task)
       });
     })
     .catch(err => {
       console.log(err)
       next()
     })
+
+
 })
 
+// EDITING A TASKS LIST ID   /api/tasks/tasks/
+router.put('/:taskId', (req, res, next) => {
+  Tasks.findByIdAndUpdate(req.params.taskId, req.body)
+    .then(task => {
+      res.send({ message: 'Task Updated Successfully' })
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(400).send(err)
+    })
+})
 
 
 module.exports = router

@@ -46,6 +46,18 @@ export default new Vuex.Store({
     },
     addTask(state, task) {
       state.tasks.push(task)
+    },
+    modifyTask(state, task) {
+      let taskIndex = state.tasks[task.listId].findIndex(t => {
+        return t._id == task._id
+      })
+      state.tasks[task.listId].splice(taskIndex, 1, task)
+    },
+    updateTask(state, task) {
+      let newListId = state.tasks[task.listId].findIndex(i => {
+        return i._id == task.listId
+      })
+      state.tasks[task.listId].splice(newListId, 1, task)
     }
   },
   actions: {
@@ -157,18 +169,31 @@ export default new Vuex.Store({
         })
     },
     updateTask({ commit, dispatch }, taskData) {
-      api.put('tasks/' + taskData.taskId)
+      debugger
+      api.put('tasks/' + taskData.taskId, taskData)
         .then(res => {
-          commit('setTasks')
           dispatch('getTasks', taskData.listId)
+          dispatch('getTasks', taskData.oldList)
         })
     },
+
+    // COMMENTS
     addComment({ commit, dispatch }, payload) {
       api.put('tasks/' + payload.taskId + '/create-comment', payload)
         .then(res => {
           console.log(res)
-          return
-          dispatch('setTasks', payload)
+          commit('modifyTask', res.data)
+          // will have to commit and inside of that mutation will have to replace the task in your state with the task you got back in the res
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
+    deleteComment({ commit, dispatch }, payload) {
+      api.put('tasks/' + payload.taskId + '/delete-comment/' + payload.commentId, payload)
+        .then(res => {
+          console.log(res)
+          commit('modifyTask', res.data)
           // will have to commit and inside of that mutation will have to replace the task in your state with the task you got back in the res
         })
         .catch(err => {
