@@ -18,7 +18,7 @@ let schema = new Schema({
   boardId: { type: ObjectId, ref: 'Board', required: true },
   comments: [comment]
 },
-  { timestamps: true })
+  { timestamps: true, usePushEach: true })
 
 
 module.exports = mongoose.model(schemaName, schema)

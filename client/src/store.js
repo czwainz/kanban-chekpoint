@@ -42,7 +42,7 @@ export default new Vuex.Store({
       state.lists.push(list)
     },
     setTasks(state, payload) {
-      state.tasks[payload.listId] = payload.tasks
+      Vue.set(state.tasks, payload.listId, payload.tasks)
     },
     addTask(state, task) {
       state.tasks.push(task)
@@ -140,9 +140,39 @@ export default new Vuex.Store({
           let payload = {
             boardId: taskData.boardId,
             listId: taskData.listId
-
           }
-          commit('addTasks', payload)
+          dispatch('getTasks', payload.listId)
+          // commit('addTask', payload)
+        })
+        .catch(err => {
+          debugger
+          console.error(err)
+        })
+    },
+    deleteTask({ commit, dispatch }, taskData) {
+      api.delete('tasks/' + taskData.taskId)
+        .then(res => {
+          console.log('task deleted!')
+          dispatch('getTasks', taskData.listId)
+        })
+    },
+    updateTask({ commit, dispatch }, taskData) {
+      api.put('tasks/' + taskData.taskId)
+        .then(res => {
+          commit('setTasks')
+          dispatch('getTasks', taskData.listId)
+        })
+    },
+    addComment({ commit, dispatch }, payload) {
+      api.put('tasks/' + payload.taskId + '/create-comment', payload)
+        .then(res => {
+          console.log(res)
+          return
+          dispatch('setTasks', payload)
+          // will have to commit and inside of that mutation will have to replace the task in your state with the task you got back in the res
+        })
+        .catch(err => {
+          console.error(err)
         })
     }
   }

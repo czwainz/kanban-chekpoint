@@ -1,5 +1,4 @@
 let router = require('express').Router()
-let Comments = require('../models/comment')
 let Tasks = require('../models/task')
 
 
@@ -13,20 +12,20 @@ router.post('/', (req, res, next) => {
     })
     .catch(err => {
       console.log(err)
+      res.status(400).send(err)
+      return
       next()
     })
 })
 
+
+
 //POST A COMMENT IN TASK
-// router.post('/:taskId/comment', (req, res, next) => {
-//   req.body.listId = req.session.uid
+// router.post('/:taskId/comments', (req, res, next) => {
 //   Tasks.findById(req.params.taskId)
 //     .then(task => {
-//       let comment = {
-//         description: req.body.description,
-//         authorId: req.session.uid
-//       }
-//       task.comments.push(comment)
+//       req.body.authorId = req.session.uid
+//       task.comments.push(req.body)
 //       task.save(err => {
 //         if (err) {
 //           return next(err)
@@ -40,23 +39,20 @@ router.post('/', (req, res, next) => {
 //     })
 // })
 
-//EDIT A TASK IN A LIST
-router.put('/:id', (req, res, next) => {
+//EDIT A TASK IN A LIST -- ALL COMMENTS ARE PUT REQUESTS
+router.put('/:id/create-comment', (req, res, next) => {
   Tasks.findById(req.params.id)
     .then(task => {
-      task.update(req.body, (err) => {
-        if (err) {
-          console.log(err)
-          next()
-          return
+      req.body.authorId = req.session.uid
+      task.comments.push(req.body)
+      task.save(error => {
+        if (error) {
+          console.log(error)
+          res.send({ message: "error" })
         }
-        res.send("Successfully Updated")
-      });
-    })
-    .catch(err => {
-      console.log(err)
-      next()
-    })
+        res.send(task)
+      })
+    });
 })
 
 //DELETE A TASK IN A LIST
@@ -74,18 +70,25 @@ router.delete('/:id', (req, res, next) => {
     })
 })
 
-//GET COMMENT BY TASK ID
-router.get('/:id/comments', (req, res, next) => {
-  Comments.find({ taskId: req.params.id })
-    .then(data => {
-      res.send(data)
+// DELETE A COMMENT BY TASK ID
+router.put('/:taskId/delete-comment/:commentId', (req, res, next) => {
+  Tasks.findById(req.params.taskId)
+    .then(task => {
+      task.update(req.body, (err) => {
+
+        if (err) {
+          console.log(err)
+          next()
+          return
+        }
+        res.send("Successfully Deleted Comment")
+      });
     })
     .catch(err => {
       console.log(err)
       next()
     })
 })
-
 
 
 

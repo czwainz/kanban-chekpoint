@@ -1,16 +1,24 @@
 <template>
   <div class="task">
     <div class="allTasks">
-      <div v-for="task in tasks" :listId="listId">
-        <div v-for="task in tasks" :taskId="taskId"></div>
-        <h5 style="color: blue;">{{task.title}}</h5>
-        <h6 style="color: blue;">{{task.description}}</h6>
+      <h5 style="color: blue;">{{taskData.title}}</h5>
+      <h6 style="color: blue;">{{taskData.description}}</h6>
+      <button @click="deleteTask(taskData._id)"><i class="far fa-trash-alt"></i></button>
+      <form @submit.prevent="addComment">
+        {{taskData._id}}
+        <input type="text" placeholder="description" v-model="newComment.description" required>
+        <button type="submit">Add Comment</button>
+      </form>
+      <div v-for="comment in taskData.comments">
+        {{comment.description}}
+        <button @click="deleteComment"><i class="far fa-trash-alt"></i></button>
       </div>
     </div>
     <form @submit.prevent="addTask">
       <input type="text" placeholder="title" v-model="newTask.title" required>
       <input type="text" placeholder="description" v-model="newTask.description">
       <button type="submit">Create Task</button>
+
     </form>
 
   </div>
@@ -24,29 +32,34 @@
         newTask: {
           title: '',
           description: ''
-
+        },
+        newComment: {
+          description: ''
         }
-
       }
-    },
-    mounted() {
-      this.$store.dispatch('getTasks', this.listId)
     },
     computed: {
-      tasks() {
-        return this.$store.state.tasks[this.listId] || []
-      }
+
     },
     methods: {
-      addTasks() {
-        let payload = {
-          boardId: this.boardId,
-          listId: this.listId
-        }
-        this.$store.dispatch('addTask', payload)
-      }
+      addTask() {
+        this.newTask.boardId = this.$route.params.boardId
+        this.newTask.listId = this.listId
+        this.$store.dispatch('addTask', this.newTask)
+      },
+      deleteTask(taskId) {
+        this.$store.dispatch('deleteTask', { taskId, listId: this.listId })
+      },
+      addComment() {
+        debugger
+        this.$store.dispatch('addComment', {
+          taskId: this.taskData._id,
+          description: this.newComment.description
+        })
+      },
+      deleteComment() { }
     },
-    props: ["listId"]
+    props: ["listId", "taskData"]
   }
 
 </script>
