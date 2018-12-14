@@ -26,7 +26,7 @@
     color: #42b983;
   }
 
-  body {
+  /* body {
     background-image: linear-gradient(#5bc0de, #008cba);
-  }
+  } */
 </style>
