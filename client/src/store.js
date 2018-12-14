@@ -6,7 +6,7 @@ import router from './router'
 Vue.use(Vuex)
 
 let production = !window.location.host.includes('localhost')
-let baseUrl = production ? 'https://aubreychrissykanban.herokuapp.com/' : '//localhost:3000/'
+let baseUrl = production ? 'https://chrissyaubreykanban.herokuapp.com/' : '//localhost:3000/'
 
 let auth = Axios.create({
   baseURL: baseUrl + "auth/",
@@ -78,7 +78,10 @@ export default new Vuex.Store({
           commit('setUser', res.data)
           dispatch('getBoards')
           // router.push({ name: 'boards' })
-        }).catch
+        }).catch(err => {
+          console.error('Not logged in')
+          router.push({ name: 'login' })
+        })
     },
     login({ commit, dispatch }, creds) {
       auth.post('login', creds)
