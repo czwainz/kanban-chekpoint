@@ -17,7 +17,6 @@
         <h6 style="color: blue;">{{taskData.description}}</h6>
       </ul>
       <button @click="deleteTask(taskData._id)" class="btn btn-outline-info"><i class="far fa-trash-alt"></i></button>
-      <br>
       <button type="button" class="btn btn-outline-primary" data-toggle="modal" @click="openModal('#task-'+taskData._id)"
         :data-target="'#task-'+taskData._id"><i class="far fa-plus-square"></i></button>
     </div>
@@ -120,4 +119,8 @@
 </script>
 
 <style>
+  /* .task-details {
+    display: flex;
+
+  } */
 </style>

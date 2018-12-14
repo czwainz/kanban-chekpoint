@@ -19,7 +19,7 @@
       <div class="col-6">
 
         <form @submit.prevent="addBoard" class=form-group>
-          <input type="text" placeholder="title" v-model="newBoard.title" required class="form-control">
+          <input type="text" placeholder="title" v-model="newBoard.title" required class="form-control mb-2">
           <input type="text" placeholder="description" v-model="newBoard.description" class="form-control">
           <button type="submit" class="btn btn-outline-primary mt-1">Create Board</button>
         </form>

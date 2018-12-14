@@ -13,17 +13,15 @@
             <button @click="deleteList" class="btn btn-outline-info"><i class="fas fa-trash"></i></button>
           </div>
         </div>
-
-        <div class="div">
-          <ul>
-            <Tasks v-for="task in tasks" :key="task._id" :taskData="task" :listId="list._id"></Tasks>
-          </ul>
-        </div>
         <form @submit.prevent="addTask" :listId="list._id" class="form-group">
-          <input type="text" placeholder="title" v-model="newTask.title" required class="form-control">
+          <input type="text" placeholder="new task title" v-model="newTask.title" required class="form-control">
           <input type="text" placeholder="description" v-model="newTask.description" class="form-control">
           <button type="submit" class="btn btn-info">Create Task</button>
         </form>
+        <div class="div">
+          <Tasks v-for="task in tasks" :key="task._id" :taskData="task" :listId="list._id"></Tasks>
+        </div>
+
       </div>
     </div>
   </div>
