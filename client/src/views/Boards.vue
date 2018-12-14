@@ -3,7 +3,7 @@
     <div class="row boardsTitle">
       <div class="col-11">
 
-        <h3>WELCOME TO THE BOARDS!!!</h3>
+        <h3 class="boardsHeadline font-weight-bold">WELCOME TO THE BOARDS!!!</h3>
       </div>
       <div class="col-1">
         <button class=" btn btn-outline-danger" @click="logout">Log Out</button>
@@ -19,24 +19,26 @@
       <div class="col-6">
 
         <form @submit.prevent="addBoard" class=form-group>
-          <input type="text" placeholder="title" v-model="newBoard.title" required class=form-control>
+          <input type="text" placeholder="title" v-model="newBoard.title" required class="form-control">
           <input type="text" placeholder="description" v-model="newBoard.description" class="form-control">
-          <button type="submit" class="btn btn-outline-dark">Create Board</button>
+          <button type="submit" class="btn btn-outline-primary mt-1">Create Board</button>
         </form>
       </div>
     </div>
 
 
     <div class="row">
-      <div v-for="board in boards" class="card col-4" :key="board._id">
+      <div v-for="board in boards" class="card col-4 mx-2" :key="board._id">
         <div class="card-title">
-          <router-link :to="{name: 'board', params: {boardId: board._id}}">{{board.title}}</router-link>
+          <h3>
+            <router-link :to="{name: 'board', params: {boardId: board._id}}">{{board.title}}</router-link>
+          </h3>
         </div>
         <div class="card-body">
           <router-link :to="{name: 'board', params: {boardId: board._id}}"><img src='../assets/vertical-snowboard(1).png'></router-link>
         </div>
         <div class="footer">
-          <button @click="deleteBoard(board._id) " class="btn btn-warning">DELETE BOARD</button>
+          <button @click="deleteBoard(board._id) " class="btn btn-outline-warning"><i class="fas fa-trash"></i></button>
         </div>
       </div>
     </div>
@@ -55,7 +57,9 @@
       // }
     },
     mounted() {
-      this.$store.dispatch("getBoards");
+      if (!this.boards.length) {
+        this.$store.dispatch("getBoards");
+      }
     },
     data() {
       return {
@@ -88,10 +92,32 @@
 <style scoped>
   .boardsTitle {
     color: var(--purple);
+    font-weight: 400;
   }
 
-  .card-deck {
+  .card {
     display: flex;
     flex-wrap: wrap;
+    transition: .3s linear;
+  }
+
+  .card:hover {
+
+    transform: scale(1.1);
+  }
+
+  .boardsHeadline {
+    text-shadow: 1px 1px 5px var(--gray);
+    font-family: 'Snowburst One', cursive;
+    font-size: 45px;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  a {
+    text-decoration: none;
   }
 </style>

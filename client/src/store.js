@@ -73,6 +73,7 @@ export default new Vuex.Store({
       auth.get('authenticate')
         .then(res => {
           commit('setUser', res.data)
+          dispatch('getBoards')
           // router.push({ name: 'boards' })
         }).catch
     },
@@ -153,7 +154,6 @@ export default new Vuex.Store({
         })
     },
     addTask({ commit, dispatch }, taskData) {
-      debugger
       api.post('tasks/', taskData)
         .then(res => {
           console.log('new task created', res.data)
@@ -176,7 +176,6 @@ export default new Vuex.Store({
         })
     },
     updateTask({ commit, dispatch }, taskData) {
-      debugger
       api.put('tasks/' + taskData.taskId, taskData)
         .then(res => {
           dispatch('getTasks', taskData.listId)

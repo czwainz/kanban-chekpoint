@@ -3,19 +3,26 @@
 
     <div class="lists justify-content-center">
       <div class="card">
-        <div class="card-body">
-          <h4>{{list.title}}</h4>
-          <p>{{list.description}}</p>
-          <button @click="deleteList">Delete List</button>
+        <div class="card-body row">
+          <div class="col-10">
+
+            <h4>{{list.title}}</h4>
+            <p>{{list.description}}</p>
+          </div>
+          <div class="col-2">
+            <button @click="deleteList" class="btn btn-outline-info"><i class="fas fa-trash"></i></button>
+          </div>
         </div>
 
         <div class="div">
-          <Tasks v-for="task in tasks" :key="task._id" :taskData="task" :listId="list._id"></Tasks>
+          <ul>
+            <Tasks v-for="task in tasks" :key="task._id" :taskData="task" :listId="list._id"></Tasks>
+          </ul>
         </div>
-        <form @submit.prevent="addTask" :listId="list._id">
-          <input type="text" placeholder="title" v-model="newTask.title" required>
-          <input type="text" placeholder="description" v-model="newTask.description">
-          <button type="submit">Create Task</button>
+        <form @submit.prevent="addTask" :listId="list._id" class="form-group">
+          <input type="text" placeholder="title" v-model="newTask.title" required class="form-control">
+          <input type="text" placeholder="description" v-model="newTask.description" class="form-control">
+          <button type="submit" class="btn btn-info">Create Task</button>
         </form>
       </div>
     </div>
@@ -67,4 +74,5 @@
 </script>
 
 <style scoped>
+  .card {}
 </style>
