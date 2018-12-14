@@ -10,8 +10,13 @@
         </div>
 
         <div class="div">
-          <Tasks v-for="task in tasks" :taskData="task" :listId="list._id"></Tasks>
+          <Tasks v-for="task in tasks" :key="task._id" :taskData="task" :listId="list._id"></Tasks>
         </div>
+        <form @submit.prevent="addTask" :listId="list._id">
+          <input type="text" placeholder="title" v-model="newTask.title" required>
+          <input type="text" placeholder="description" v-model="newTask.description">
+          <button type="submit">Create Task</button>
+        </form>
       </div>
     </div>
   </div>
@@ -28,6 +33,10 @@
         newList: {
           title: '',
           description: ''
+        },
+        newTask: {
+          title: '',
+          description: ''
         }
       }
     },
@@ -42,7 +51,13 @@
     methods: {
       deleteList() {
         this.$store.dispatch('deleteList', { listId: this.list._id, boardId: this.boardId })
-      }
+      },
+      addTask() {
+        this.newTask.boardId = this.$route.params.boardId
+        this.newTask.listId = this.list._id
+        this.$store.dispatch('addTask', this.newTask)
+        this.newTask = { title: "", description: "" }
+      },
     },
     components: {
       Tasks

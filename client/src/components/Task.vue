@@ -8,25 +8,51 @@
           <p class="dropdown-item" v-for="list in lists" @click="updateTask(list._id)">{{list.title}}</p>
         </div>
       </div>
+    </div>
+    <div class="task-details">
       <h5 style="color: blue;">{{taskData.title}}</h5>
       <h6 style="color: blue;">{{taskData.description}}</h6>
       <button @click="deleteTask(taskData._id)"><i class="far fa-trash-alt"></i></button>
-      <form @submit.prevent="addComment">
-        {{taskData._id}}
-        <input type="text" placeholder="description" v-model="newComment.description" required>
-        <button type="submit">Add Comment</button>
-      </form>
-      <div v-for="comment in taskData.comments">
-        {{comment.description}}
-        <button @click="deleteComment(comment._id)"><i class="far fa-trash-alt"></i></button>
+      <br>
+      <button type="button" class="btn btn-warning" data-toggle="modal" @click="openModal('#task-'+taskData._id)"
+        :data-target="'#task-'+taskData._id">Add
+        Comment Form</button>
+    </div>
+
+    <div class="modal fade show" :id="'task-'+taskData._id" tabindex="-1" role="dialog">
+      <div class="modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header top">
+
+            <h3 class="modal-title">Add Comment Form</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <form @submit.prevent="addComment">
+              <input type="text" placeholder="description" v-model="newComment.description" required>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @click="closeModal('task-'+taskData._id)" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Add Comment</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+              </div>
+            </form>
+          </div>
+
+        </div>
       </div>
     </div>
-    <form @submit.prevent="addTask">
-      <input type="text" placeholder="title" v-model="newTask.title" required>
-      <input type="text" placeholder="description" v-model="newTask.description">
-      <button type="submit">Create Task</button>
 
-    </form>
+
+    <div v-for="comment in taskData.comments">
+      {{comment.description}}
+      <button @click="deleteComment(comment._id)"><i class="far fa-trash-alt"></i></button>
+    </div>
+  </div>
+
 
   </div>
 </template>
@@ -43,6 +69,7 @@
         newComment: {
           description: ''
         }
+        // modal: false
       }
     },
     computed: {
@@ -51,23 +78,17 @@
       }
     },
     methods: {
-      addTask() {
-        this.newTask.boardId = this.$route.params.boardId
-        this.newTask.listId = this.listId
-        this.$store.dispatch('addTask', this.newTask)
-      },
+
       deleteTask(taskId) {
         this.$store.dispatch('deleteTask', { taskId, listId: this.listId })
       },
       addComment() {
-        debugger
         this.$store.dispatch('addComment', {
           taskId: this.taskData._id,
           description: this.newComment.description
         })
       },
       deleteComment(id) {
-        debugger
         this.$store.dispatch('deleteComment', {
           taskId: this.taskData._id,
           commentId: id
@@ -79,6 +100,15 @@
           listId: listId,
           oldList: this.taskData.listId
         })
+      },
+      openModal(id) {
+        $(id).show()
+        $('.modal-backdrop').show()
+      },
+      closeModal(id) {
+        $('#' + id).hide('fade')
+        $('.modal-backdrop').hide()
+        $('body').removeClass('modal-open')
       }
     },
     props: ["listId", "taskData"]

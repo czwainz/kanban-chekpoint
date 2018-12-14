@@ -1,7 +1,12 @@
 <template>
   <div class="board container-fluid">
     <div class="row justify-content-center">
-      {{boardId}}
+      <div class="col-1">
+        <router-link to="/"><i class="far fa-snowflake"></i> Boards</router-link>
+      </div>
+      <div class="col-11">
+        <h3>{{board.title}}</h3>
+      </div>
     </div>
     <div class="form col-12 justify-content-center">
       <form @submit.prevent="addList">
@@ -43,6 +48,11 @@
     computed: {
       lists() {
         return this.$store.state.lists
+      },
+      board() {
+        return this.$store.state.boards.find(board => {
+          return this.boardId == board._id
+        })
       }
     },
     methods: {
