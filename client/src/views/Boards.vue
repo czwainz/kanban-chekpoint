@@ -11,7 +11,7 @@
 
 
       <div class="col-12">
-        <h4>Choose your Snowboard</h4>
+        <h4>Choose your Snowboard!</h4>
       </div>
 
     </div>

@@ -12,9 +12,9 @@
     <div class="task-details">
       <ul>
         <li>
-          <h5 style="color: blue;">{{taskData.title}}</h5>
+          <h5 style="color: var(--dark);"><strong>{{taskData.title}}</strong></h5>
         </li>
-        <h6 style="color: blue;">{{taskData.description}}</h6>
+        <h6 style="color: var(--dark)">{{taskData.description}}</h6>
       </ul>
       <button @click="deleteTask(taskData._id)" class="btn btn-outline-info"><i class="far fa-trash-alt"></i></button>
       <button type="button" class="btn btn-outline-primary" data-toggle="modal" @click="openModal('#task-'+taskData._id)"
@@ -71,7 +71,7 @@
         newComment: {
           description: ''
         }
-        // modal: false
+
       }
     },
     computed: {

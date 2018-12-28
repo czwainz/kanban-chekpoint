@@ -80,6 +80,6 @@
 <style>
   .boardTitle {
     font-family: 'Work Sans', sans-serif;
-    font-size: 35px;
+    font-size: 38px;
   }
 </style>
