@@ -100,10 +100,8 @@ export default new Vuex.Store({
 
     //BOARDS
     getBoards({ commit, dispatch }) {
-      debugger
       api.get('boards')
         .then(res => {
-          debugger
           console.log('boards', res.data)
           commit('setBoards', res.data)
         })
