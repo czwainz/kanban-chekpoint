@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="row justify-content-center">
-      <div class="col-4 bg-info registerTag">
+      <div class="col-4 bg-info registerTag rounded">
         <div @click="loginForm = !loginForm">
           <p v-if="loginForm">No account? Click here to Register</p>
           <p v-else>Already have an account? Click here to Login</p>
